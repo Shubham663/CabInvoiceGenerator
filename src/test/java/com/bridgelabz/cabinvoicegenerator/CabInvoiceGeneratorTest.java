@@ -15,12 +15,21 @@ import org.junit.Test;
 public class CabInvoiceGeneratorTest 
 {
 	List<Ride> listOfRides;
-	
+	Invoice invoice;
+	InvoiceGenerator invoiceGenerator;
 	@Before
 	public void init() {
 		listOfRides = new ArrayList<>();
     	listOfRides.add(new Ride(0.2,2));
     	listOfRides.add(new Ride(1,5));
+    	List<Ride> listOfRides2 = new ArrayList<>();
+    	listOfRides2.add(new Ride(2,10));
+    	listOfRides2.add(new Ride(2, 5));
+    	invoice = new Invoice(2, 20, 10);
+    	invoiceGenerator = new InvoiceGenerator();
+    	invoiceGenerator.getUserRides().put("User001", listOfRides);
+    	invoiceGenerator.getUserRides().put("User002", listOfRides2);
+    	
 	}
 	
     /**
@@ -51,7 +60,14 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceForMultipleRidesTest_shouldReturnInvoiceObject(){
-    	Invoice invoice = new Invoice(2, 20, 10);
         assertTrue(invoice.equals(InvoiceGenerator.getInvoice(listOfRides)));
+    }
+    
+    /**
+     * Tests for invoice of multiple rides, for a particular userID
+     */
+    @Test
+    public void invoiceForUserIDTest_shouldReturnInvoiceObject(){
+        assertTrue(invoice.equals(InvoiceGenerator.getInvoice("User001")));
     }
 }
