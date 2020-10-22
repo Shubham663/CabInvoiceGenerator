@@ -15,7 +15,7 @@ import org.junit.Test;
 public class CabInvoiceGeneratorTest 
 {
 	List<Ride> listOfRides;
-	Invoice invoice;
+	Invoice invoice,invoice2;
 	InvoiceGenerator invoiceGenerator;
 	@Before
 	public void init() {
@@ -26,9 +26,11 @@ public class CabInvoiceGeneratorTest
     	listOfRides2.add(new Ride(2,10));
     	listOfRides2.add(new Ride(2, 5));
     	invoice = new Invoice(2, 20, 10);
+    	invoice2 = new Invoice(2,90,45);
     	invoiceGenerator = new InvoiceGenerator();
     	invoiceGenerator.getUserRides().put("User001", listOfRides);
     	invoiceGenerator.getUserRides().put("User002", listOfRides2);
+    	
     	
 	}
 	
@@ -37,14 +39,14 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceGeneratorTest_shouldReturnTotalFare(){
-        assertEquals(new Double(15.0), InvoiceGenerator.totalFare(1,5));
+        assertEquals(new Double(15.0), InvoiceGenerator.totalFare(1,5,0));
     }
     /**
      * Tests whether total fare returned is minimal
      */
     @Test
     public void invoiceGeneratorTest_shouldReturnMinimalFare(){
-        assertEquals(new Double(5.0), InvoiceGenerator.totalFare(0.2,2));
+        assertEquals(new Double(5.0), InvoiceGenerator.totalFare(0.2,2,0));
     }
     
     /**
@@ -52,7 +54,7 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceForMultipleRidesTest_shouldReturnAggregateFare(){
-        assertEquals(new Double(20.0), InvoiceGenerator.aggragateFare(listOfRides));
+        assertEquals(new Double(20.0), InvoiceGenerator.aggragateFare(listOfRides,0));
     }
     
     /**
@@ -60,7 +62,7 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceForMultipleRidesTest_shouldReturnInvoiceObject(){
-        assertTrue(invoice.equals(InvoiceGenerator.getInvoice(listOfRides)));
+        assertTrue(invoice.equals(InvoiceGenerator.getInvoice(listOfRides,0)));
     }
     
     /**
@@ -68,6 +70,14 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceForUserIDTest_shouldReturnInvoiceObject(){
-        assertTrue(invoice.equals(InvoiceGenerator.getInvoice("User001")));
+        assertTrue(invoice.equals(InvoiceGenerator.getInvoice("User001",0)));
+    }
+    
+    /**
+     * Tests for invoice of multiple rides, for a particular userID for premium rides
+     */
+    @Test
+    public void invoiceForUserID_PremiumRidesTest_shouldReturnInvoiceObject(){
+        assertTrue(invoice2.equals(InvoiceGenerator.getInvoice("User002",1)));
     }
 }
