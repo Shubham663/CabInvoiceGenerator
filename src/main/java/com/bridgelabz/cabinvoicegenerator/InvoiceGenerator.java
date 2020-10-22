@@ -1,6 +1,8 @@
 package com.bridgelabz.cabinvoicegenerator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generates invoice for cab ride
@@ -8,6 +10,15 @@ import java.util.List;
  *
  */
 public class InvoiceGenerator {
+
+	private static Map<String,List<Ride>> userRides;
+
+	/**
+	 * 
+	 */
+	public InvoiceGenerator() {
+		userRides = new HashMap<>();
+	}
 
 	/**
 	 * @return the fare for a single ride
@@ -18,6 +29,20 @@ public class InvoiceGenerator {
 			return 5.0;
 		else
 			return fare;
+	}
+
+	/**
+	 * @return the userRides
+	 */
+	public static Map<String, List<Ride>> getUserRides() {
+		return userRides;
+	}
+
+	/**
+	 * @param userRides the userRides to set
+	 */
+	public static void setUserRides(Map<String, List<Ride>> userRides) {
+		userRides = userRides;
 	}
 
 	/**
@@ -43,6 +68,15 @@ public class InvoiceGenerator {
 		double avg = aggragate/listOfRides.size();
 		Invoice invoice = new Invoice(listOfRides.size(),aggragate,avg);
 		return invoice;
+	}
+
+	/**
+	 * @param key the UserID
+	 * @return returns the invoice of rides for the UserID
+	 */
+	public static Invoice getInvoice(String key) {
+		List<Ride> listOfRides = userRides.get(key);
+		return getInvoice(listOfRides);
 	}
 	
 }
