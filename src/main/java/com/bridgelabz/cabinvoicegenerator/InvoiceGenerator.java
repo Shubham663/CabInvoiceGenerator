@@ -33,5 +33,16 @@ public class InvoiceGenerator {
 		}
 		return aggragateFare;
 	}
+
+	/**
+	 * @param listOfRides the rides for which aggregate is to be calculated
+	 * @return returns the invoice object which has aggregate fare, average fare and total no of rides.
+	 */
+	public static Invoice getInvoice(List<Ride> listOfRides) {
+		double aggragate = aggragateFare(listOfRides);
+		double avg = aggragate/listOfRides.size();
+		Invoice invoice = new Invoice(listOfRides.size(),aggragate,avg);
+		return invoice;
+	}
 	
 }

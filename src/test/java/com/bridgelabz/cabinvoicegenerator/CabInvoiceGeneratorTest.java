@@ -1,10 +1,12 @@
 package com.bridgelabz.cabinvoicegenerator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,6 +14,15 @@ import org.junit.Test;
  */
 public class CabInvoiceGeneratorTest 
 {
+	List<Ride> listOfRides;
+	
+	@Before
+	public void init() {
+		listOfRides = new ArrayList<>();
+    	listOfRides.add(new Ride(0.2,2));
+    	listOfRides.add(new Ride(1,5));
+	}
+	
     /**
      * Tests the whether total fare generation is correct.
      */
@@ -32,9 +43,15 @@ public class CabInvoiceGeneratorTest
      */
     @Test
     public void invoiceForMultipleRidesTest_shouldReturnAggregateFare(){
-    	List<Ride> listOfRides = new ArrayList<>();
-    	listOfRides.add(new Ride(0.2,2));
-    	listOfRides.add(new Ride(1,5));
         assertEquals(new Double(20.0), InvoiceGenerator.aggragateFare(listOfRides));
+    }
+    
+    /**
+     * Tests for invoice of multiple rides.
+     */
+    @Test
+    public void invoiceForMultipleRidesTest_shouldReturnInvoiceObject(){
+    	Invoice invoice = new Invoice(2, 20, 10);
+        assertTrue(invoice.equals(InvoiceGenerator.getInvoice(listOfRides)));
     }
 }
